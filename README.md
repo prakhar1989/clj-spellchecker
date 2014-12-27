@@ -1,36 +1,9 @@
-# spellchecker
+> Happy Holidays :santa:
 
-FIXME: description
+Peter Norvig's [spellchecker](http://norvig.com/spell-correct.html) in Clojure!
 
-## Installation
+These holidays, I decided to give myself the gift of learning a new programming language - Clojure!. This small *project* is a quick experiment in migrating Python code to Clojure and test the results. 
 
-Download from http://example.com/FIXME.
+Since I didnt want to commit a big file in Git, the project contains a small one.
+Grab [big.txt](http://norvig.com/big.txt) first if you want the spellchecker to give better results!
 
-## Usage
-
-FIXME: explanation
-
-    $ java -jar spellchecker-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
