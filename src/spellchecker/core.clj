@@ -21,5 +21,4 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (square 10)))
-
+  (println (count-words "tis for tis")))
