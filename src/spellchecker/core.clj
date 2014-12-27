@@ -19,8 +19,8 @@
   [text]
   (reduce get-map-count {} (get-words text)))
 
-;; read in all the words from the file
-(def nwords (count-words (slurp "resources/verysmall.txt")))
+;; change filename for better accuracy
+(def nwords (count-words (slurp "resources/words-file.txt")))
 
 (defn word-split
   "splits a word at the nth position"
@@ -75,18 +75,33 @@
                (inserts word) (deletes word))))
 
 (defn known-words
-  "returns a set of words from words which are in set of nwords"
+  "returns a set of words from words which are in set of nwords, nil otherwise"
   [words nwords]
-  (set (for [x words :when (nwords x)] x)))
+  (let [result (set (for [x words :when (nwords x)] x))]
+    (if (empty? result) nil result)))
 
 (defn known-edits2
-  "returns a set of words at an edit distance of 2 from word which are part of nwords"
+  "returns a set of words at an edit distance of 2 
+  from word which are part of nwords, nil otherwise"
   [word nwords]
-  (set (for [e1 (edits1 word)
-        e2 (edits1 e1)
-        :when (nwords e2)] e2)))
+  (let [result (set (for [e1 (edits1 word) 
+                          e2 (edits1 e1) 
+                          :when (nwords e2)] e2))]
+    (if (empty? result) nil result)))
+
+(defn get-candidates
+  "returns a set of correction candidates of a word using the set of nwords as dictionary"
+  [word nwords]
+  (or (known-words [word] nwords) (known-words (edits1 word) nwords)
+      (known-edits2 word nwords) [word]))
+
+(defn correct
+  "returns the correction for a word using the set of nwords as dictionary"
+  [word words]
+  (let [candidates (get-candidates word words)]
+  (apply max-key #(get nwords % 1) candidates)))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (str "Total words read: " (count nwords))))
+  (println "Run `lein repl` and (correct <word> nwords) to play"))
