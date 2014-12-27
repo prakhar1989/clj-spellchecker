@@ -1,6 +1,8 @@
 (ns spellchecker.core
   (:gen-class))
 
+(def alphabets "abcdefghijklmnopqrstuvwxyz")
+
 (defn get-words
   "returns a list of words in a text"
   [text]
@@ -46,6 +48,23 @@
         :when (> (count y) 1)]
     (str (first x) (get y 1) 
          (first y) (apply str (drop 2 y)))))
+
+(defn replaces
+  "returns all words with one character replaced by another alphabet"
+  [word]
+  (flatten (for [x (get-word-splits word)
+        :let [y (last x)]
+        :when (not (empty? y))]
+    (map (fn [a] (str (first x) a 
+                      (apply str (drop 1 y)))) 
+         alphabets))))
+
+(defn inserts
+  "returns all words with one alphabet added in a word"
+  [word]
+  (flatten (map (fn [x] 
+         (map (fn [a] (str (first x) a (last x))) alphabets)) 
+       (get-word-splits word))))
 
 (defn -main
   "I don't do a whole lot ... yet."

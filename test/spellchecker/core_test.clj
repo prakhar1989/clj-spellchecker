@@ -2,6 +2,10 @@
   (:require [clojure.test :refer :all]
             [spellchecker.core :refer :all]))
 
+;; dummy word for testing
+(def test-word "teach")
+(def N (count test-word))
+
 (deftest a-test
   (testing "FIXME, I fail."
     (is (= 1 1))))
@@ -24,4 +28,25 @@
 (deftest word-split-test
   (testing "word split function"
     (is (= '("te" "ach")
-           (word-split 2 "teach")))))
+           (word-split 2 test-word)))))
+
+;; reasoning for test below (from the blogpost)
+;; For a word of length n, there will be n deletions, n-1 transpositions, 
+;; 26n alterations, and 26(n+1) insertions, 
+;; for a total of 54n+25 (of which a few are typically duplicates)
+(deftest deletes-test
+  (testing "delete function"
+    (is (= N (count (deletes test-word))))))
+
+(deftest transposes-test
+  (testing "transposes function"
+    (is (= (dec N) (count (transposes test-word))))))
+
+(deftest replaces-test
+  (testing "replaces function"
+    (is (= (* 26 N) (count (replaces test-word))))))
+
+(deftest inserts-test
+  (testing "inserts function"
+    (is (= (* 26 (inc N)) (count (inserts test-word))))))
+
