@@ -21,3 +21,7 @@
     (is (= {"hello" 2 "world" 1}
            (count-words "hello world hello")))))
 
+(deftest word-split-test
+  (testing "word split function"
+    (is (= '("te" "ach")
+           (word-split 2 "teach")))))
