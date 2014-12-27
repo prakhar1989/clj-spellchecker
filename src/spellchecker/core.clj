@@ -41,15 +41,6 @@
 (defn transposes
   "returns all transposes of one character in a word"
   [word]
-  (map (fn [x] 
-         (let [sec (last x)]
-          (str (first x) (get sec 1) (first sec) 
-               (apply str (drop 2 sec)))))
-       (get-word-splits word)))
-
-(defn transposes
-  "returns all transposes of one character in a word"
-  [word]
   (for [x (get-word-splits word)
         :let [y (last x)]
         :when (> (count y) 1)]
