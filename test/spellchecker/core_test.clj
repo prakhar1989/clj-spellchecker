@@ -49,4 +49,3 @@
 (deftest inserts-test
   (testing "inserts function"
     (is (= (* 26 (inc N)) (count (inserts test-word))))))
-

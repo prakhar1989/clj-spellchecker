@@ -6,8 +6,7 @@
 (defn get-words
   "returns a list of words in a text"
   [text]
-  (re-seq #"\w+" 
-          (clojure.string/lower-case text)))
+  (re-seq #"\w+" (.toLowerCase text)))
 
 (defn get-map-count 
   "increments count of word in provided map(counts)"
@@ -19,6 +18,8 @@
   "returns a map of counts of words in a text"
   [text]
   (reduce get-map-count {} (get-words text)))
+
+(def nwords (count-words (slurp "resources/verysmall.txt")))
 
 (defn word-split
   "splits a word at the nth position"
@@ -66,7 +67,13 @@
          (map (fn [a] (str (first x) a (last x))) alphabets)) 
        (get-word-splits word))))
 
+(defn edits1
+  "returns a set of all words within a edit distance of 1 from the word"
+  [word]
+  (set (concat (replaces word) (transposes word) 
+               (inserts word) (deletes word))))
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println (count-words "tis for tis")))
+  (println (str "Total words read: " (count nwords))))
