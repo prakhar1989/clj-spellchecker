@@ -30,21 +30,31 @@
   (map #(word-split % word)
     (range (inc (count word)))))
 
-;; TODO remove the word itself
 (defn deletes
-  "returns all combinations of a character deleted from a word"
+  "returns all combinations of a char deleted from a word"
   [word]
-  (map #(str (first %) 
-             (apply str (drop 1 (last %))))
-    (get-word-splits word)))
+  (for [x (get-word-splits word)
+        :let [y (last x)]
+        :when (not (empty? y))]
+    (str (first x) (apply str (drop 1 y)))))
 
-;; same issue as above
 (defn transposes
   "returns all transposes of one character in a word"
   [word]
-  (map #(str (first %) (get (last %) 1) 
-             (first (last %)) (apply str (drop 2 (last %))))
+  (map (fn [x] 
+         (let [sec (last x)]
+          (str (first x) (get sec 1) (first sec) 
+               (apply str (drop 2 sec)))))
        (get-word-splits word)))
+
+(defn transposes
+  "returns all transposes of one character in a word"
+  [word]
+  (for [x (get-word-splits word)
+        :let [y (last x)]
+        :when (> (count y) 1)]
+    (str (first x) (get y 1) 
+         (first y) (apply str (drop 2 y)))))
 
 (defn -main
   "I don't do a whole lot ... yet."
