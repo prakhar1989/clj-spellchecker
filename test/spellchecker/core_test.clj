@@ -33,7 +33,6 @@
 ;; reasoning for test below (from the blogpost)
 ;; For a word of length n, there will be n deletions, n-1 transpositions, 
 ;; 26n alterations, and 26(n+1) insertions, 
-;; for a total of 54n+25 (of which a few are typically duplicates)
 (deftest deletes-test
   (testing "delete function"
     (is (= N (count (deletes test-word))))))

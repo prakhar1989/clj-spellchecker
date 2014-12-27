@@ -19,6 +19,7 @@
   [text]
   (reduce get-map-count {} (get-words text)))
 
+;; read in all the words from the file
 (def nwords (count-words (slurp "resources/verysmall.txt")))
 
 (defn word-split
@@ -64,7 +65,7 @@
   "returns all words with one alphabet added in a word"
   [word]
   (flatten (map (fn [x] 
-         (map (fn [a] (str (first x) a (last x))) alphabets)) 
+         (map #(str (first x) % (last x)) alphabets)) 
        (get-word-splits word))))
 
 (defn edits1
@@ -72,6 +73,18 @@
   [word]
   (set (concat (replaces word) (transposes word) 
                (inserts word) (deletes word))))
+
+(defn known-words
+  "returns a set of words from words which are in set of nwords"
+  [words nwords]
+  (set (for [x words :when (nwords x)] x)))
+
+(defn known-edits2
+  "returns a set of words at an edit distance of 2 from word which are part of nwords"
+  [word nwords]
+  (set (for [e1 (edits1 word)
+        e2 (edits1 e1)
+        :when (nwords e2)] e2)))
 
 (defn -main
   "I don't do a whole lot ... yet."
