@@ -30,6 +30,12 @@
     (is (= '("te" "ach")
            (word-split 2 test-word)))))
 
+(deftest get-words-splits-test
+  (testing "get word splits function"
+    (is (= '(("" "teach") ("t" "each") ("te" "ach") 
+             ("tea" "ch") ("teac" "h") ("teach" ""))
+           (get-word-splits test-word)))))
+
 ;; reasoning for test below (from the blogpost)
 ;; For a word of length n, there will be n deletions, n-1 transpositions, 
 ;; 26n alterations, and 26(n+1) insertions, 
@@ -48,3 +54,8 @@
 (deftest inserts-test
   (testing "inserts function"
     (is (= (* 26 (inc N)) (count (inserts test-word))))))
+
+(deftest known-words-test
+  (testing "known words test"
+    (is (= #{"hello"}
+           (known-words #{"hello" "world"} #{"hello" "boy"})))))
